@@ -1,0 +1,90 @@
+package edu.sru.thangiah.webrouting.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.sru.thangiah.webrouting.domain.Contacts;
+import edu.sru.thangiah.webrouting.domain.Contractors;
+import edu.sru.thangiah.webrouting.repository.ContactsRepository;
+import edu.sru.thangiah.webrouting.repository.ContractorsRepository;
+
+/*
+ * ContactsController
+ * 
+ * Created 2/1/2022 by Logan Kirkwood
+ * 
+ * Description: Handles the Thymeleaf controls for pages
+ * dealing with Contractors
+ */
+
+@Controller
+public class ContractorsController {
+	
+	private ContractorsRepository contractorsRepository;
+	
+	private ContactsRepository contactsRepository;
+	
+	public ContractorsController(ContractorsRepository contractorsRepository, ContactsRepository contactsRepository) {
+		this.contractorsRepository = contractorsRepository;
+		this.contactsRepository = contactsRepository;
+	}
+	
+	@RequestMapping({"/contractors"})
+    public String showContractorList(Model model) {
+        model.addAttribute("contractors", contractorsRepository.findAll());
+        return "contractors";
+    }
+	
+	@GetMapping({"/add-contractor"})
+    public String showContactList(Model model, Contractors contractor, BindingResult result) {
+        model.addAttribute("contacts", contactsRepository.findAll());       
+        return "/add/add-contractor";
+    }
+	
+	@RequestMapping({"/addcontractor"})
+  	public String addContractor(@Validated Contractors contractor, BindingResult result, Model model) {
+  		if (result.hasErrors()) {
+  			return "/add/add-contractor";
+		}
+  		
+  		contractorsRepository.save(contractor);
+  		return "redirect:/contractors";
+  	}
+	
+	@GetMapping("/deletecontractors/{id}")
+    public String deleteContractor(@PathVariable("id") long id, Model model) {
+        Contractors contractor = contractorsRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid contractor Id:" + id));
+        contractorsRepository.delete(contractor);
+        return "redirect:/contractors";
+    }
+	
+	@GetMapping("/editcontractors/{id}")
+    public String showEditForm(@PathVariable("id") long id, Model model) {
+		Contractors contractor = contractorsRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid contractor Id:" + id));
+        
+		model.addAttribute("contacts", contactsRepository.findAll());
+        model.addAttribute("contractors", contractor);
+        return "/update/update-contractor";
+    }
+	
+	@PostMapping("/updatecontractor/{id}")
+    public String updateUser(@PathVariable("id") long id, @Validated Contractors contractor, 
+      BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            contractor.setId(id);
+            return "/update/update-contractor";
+        }
+            
+        contractorsRepository.save(contractor);
+        return "redirect:/contractors";
+    }
+
+}

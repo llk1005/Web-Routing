@@ -1,0 +1,50 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.springframework.lang.NonNull;
+
+@Entity
+public class Technicians {
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name = "contact_id")
+	private Contacts contact;
+	
+	@NonNull
+	private String skill_grade;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Contacts getContact() {
+		return contact;
+	}
+
+	public void setContact(Contacts contact) {
+		this.contact = contact;
+	}
+
+	public String getSkill_grade() {
+		return skill_grade;
+	}
+
+	public void setSkill_grade(String skill_grade) {
+		this.skill_grade = skill_grade;
+	}
+	
+}

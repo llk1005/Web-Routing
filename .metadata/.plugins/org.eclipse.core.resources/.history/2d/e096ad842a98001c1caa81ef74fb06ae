@@ -1,0 +1,69 @@
+package edu.sru.thangiah.webrouting.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.sru.thangiah.webrouting.domain.Driver;
+import edu.sru.thangiah.webrouting.domain.Technicians;
+import edu.sru.thangiah.webrouting.repository.ContactsRepository;
+import edu.sru.thangiah.webrouting.repository.TechniciansRepository;
+
+@Controller
+public class TechniciansController {
+
+	private TechniciansRepository techniciansRepository;
+	
+	private ContactsRepository contactsRepository;
+	
+	public TechniciansController(TechniciansRepository techniciansRepository, ContactsRepository contactsRepository) {
+		this.techniciansRepository = techniciansRepository;
+		this.contactsRepository = contactsRepository;
+	}
+	
+	@RequestMapping({"/technicians"})
+    public String showTechList(Model model) {
+        model.addAttribute("technicians", techniciansRepository.findAll());
+        return "technicians";
+    }
+	
+	@GetMapping({"/add-technician"})
+    public String showContactList(Model model, Technicians technician, BindingResult result) {
+        model.addAttribute("contacts", contactsRepository.findAll());       
+        return "add-technician";
+    }
+	
+	@RequestMapping({"/addtechnician"})
+  	public String addtechnician(@Validated Technicians technician, BindingResult result, Model model) {
+  		if (result.hasErrors()) {
+  			return "add-technician";
+		}
+  		
+  		techniciansRepository.save(technician);
+  		return "redirect:/technicians";
+  	}
+	
+	@GetMapping("/deletetechnician/{id}")
+    public String deletetechnician(@PathVariable("id") long id, Model model) {
+        Technicians technician = techniciansRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid technicians Id:" + id));
+        techniciansRepository.delete(technician);
+        return "redirect:/technicians";
+    }
+	
+	@GetMapping("/edittechnician/{id}")
+    public String showEditForm(@PathVariable("id") long id, Model model) {
+		Technicians technician = techniciansRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid Technician Id:" + id));
+        
+		
+		 model.addAttribute("contacts", contactsRepository.findAll());  
+	     model.addAttribute("technicians", technician);
+	     
+        return "add-technician";
+    }
+}

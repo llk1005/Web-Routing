@@ -1,0 +1,202 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.springframework.lang.NonNull;
+
+/*
+ * VehicleTypes
+ * 
+ * Created 1/30/2022 by Logan Kirkwood
+ * 
+ * Description: Sets up the VehicleTypes database
+ */
+
+@Entity
+public class VehicleTypes {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+	
+	@NonNull
+	private String type;
+	
+	private String subType;
+	
+	private String description;
+	
+	@NonNull
+	private String make;
+	
+	@NonNull
+	private String model;
+	
+	@NonNull
+	private int minimumWeight;
+	
+	@NonNull
+	private int maximumWeight;
+	
+	private String capacity;
+	
+	@NonNull
+	private int maximumRange;
+	
+	private String restrictions;
+	
+	@NonNull
+	private int height;
+	
+	@NonNull
+	private int emptyWeight;
+	
+	@NonNull
+	private int length;
+	
+	private int minimumCubicWeight;
+	
+	private int maximumCubicWeight;
+	
+	@OneToMany(mappedBy = "contractor")
+	private List<Vehicles> vehicles = new ArrayList<>();
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getSubType() {
+		return subType;
+	}
+
+	public void setSubType(String subType) {
+		this.subType = subType;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getMake() {
+		return make;
+	}
+
+	public void setMake(String make) {
+		this.make = make;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public int getMinimumWeight() {
+		return minimumWeight;
+	}
+
+	public void setMinimumWeight(int minimumWeight) {
+		this.minimumWeight = minimumWeight;
+	}
+
+	public int getMaximumWeight() {
+		return maximumWeight;
+	}
+
+	public void setMaximumWeight(int maximumWeight) {
+		this.maximumWeight = maximumWeight;
+	}
+
+	public String getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(String capacity) {
+		this.capacity = capacity;
+	}
+
+	public int getMaximumRange() {
+		return maximumRange;
+	}
+
+	public void setMaximumRange(int maximumRange) {
+		this.maximumRange = maximumRange;
+	}
+
+	public String getRestrictions() {
+		return restrictions;
+	}
+
+	public void setRestrictions(String restrictions) {
+		this.restrictions = restrictions;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getEmptyWeight() {
+		return emptyWeight;
+	}
+
+	public void setEmptyWeight(int emptyWeight) {
+		this.emptyWeight = emptyWeight;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public int getMinimumCubicWeight() {
+		return minimumCubicWeight;
+	}
+
+	public void setMinimumCubicWeight(int minimumCubicWeight) {
+		this.minimumCubicWeight = minimumCubicWeight;
+	}
+
+	public int getMaximumCubicWeight() {
+		return maximumCubicWeight;
+	}
+
+	public void setMaximumCubicWeight(int maximumCubicWeight) {
+		this.maximumCubicWeight = maximumCubicWeight;
+	}
+	public String toString() {
+		return this.getMake() + " " + this.getModel();
+	}
+	
+}

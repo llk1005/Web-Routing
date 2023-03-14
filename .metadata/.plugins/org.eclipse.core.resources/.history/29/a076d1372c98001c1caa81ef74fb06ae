@@ -1,0 +1,94 @@
+package edu.sru.thangiah.webrouting.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.sru.thangiah.webrouting.domain.Locations;
+import edu.sru.thangiah.webrouting.domain.MaintenanceOrders;
+import edu.sru.thangiah.webrouting.domain.Technicians;
+import edu.sru.thangiah.webrouting.repository.DriverRepository;
+import edu.sru.thangiah.webrouting.repository.MaintenanceOrdersRepository;
+import edu.sru.thangiah.webrouting.repository.TechniciansRepository;
+import edu.sru.thangiah.webrouting.repository.VehiclesRepository;
+
+@Controller
+public class MaintenanceOrderController {
+	private MaintenanceOrdersRepository maintenanceOrderRepository;
+	
+	private TechniciansRepository techniciansRepository;
+	
+	private DriverRepository driverRepository;
+	
+	private VehiclesRepository vehiclesRepository;
+	
+	public MaintenanceOrderController(MaintenanceOrdersRepository maintenanceOrderRepository, TechniciansRepository techniciansRepository, DriverRepository driverRepository, VehiclesRepository vehiclesRepository) {
+		this.maintenanceOrderRepository = maintenanceOrderRepository;
+		this.techniciansRepository = techniciansRepository;
+		this.driverRepository = driverRepository;
+		this.vehiclesRepository = vehiclesRepository;
+	}
+	
+	@RequestMapping({"/maintenanceorders"})
+    public String showMaintenanceOrdersList(Model model) {
+        model.addAttribute("maintenanceOrder", maintenanceOrderRepository.findAll());
+        return "maintenanceorders";
+    }
+	
+	@GetMapping({"/add-maintenance"})
+    public String showOrderList(Model model, MaintenanceOrders maintenanceOrder, BindingResult result) {
+		model.addAttribute("technicians", techniciansRepository.findAll());
+		model.addAttribute("drivers", driverRepository.findAll());
+		model.addAttribute("vehicles", vehiclesRepository.findAll());
+        return "/add/add-maintenance";
+    }
+	
+	@RequestMapping({"/addmaintenance"})
+  	public String addMaintenanceOrder(@Validated MaintenanceOrders maintenanceOrder, BindingResult result, Model model) {
+  		if (result.hasErrors()) {
+  			return "/add/add-maintenance";
+		}
+  		
+  		maintenanceOrderRepository.save(maintenanceOrder);
+  		return "redirect:/maintenanceorders";
+  	}
+	
+	@GetMapping("/deleteorder/{id}")
+    public String deletemaintenance(@PathVariable("id") long id, Model model) {
+		MaintenanceOrders maintenanceOrder = maintenanceOrderRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid maintenance Id:" + id));
+		maintenanceOrderRepository.delete(maintenanceOrder);
+        return "redirect:/maintenanceorders";
+    }
+	
+	@GetMapping("/editorder/{id}")
+    public String showEditForm(@PathVariable("id") long id, Model model) {
+		MaintenanceOrders maintenanceOrder = maintenanceOrderRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid maintenance Id:" + id));
+        
+		
+		model.addAttribute("technicians", techniciansRepository.findAll());
+		model.addAttribute("drivers", driverRepository.findAll());
+		model.addAttribute("vehicles", vehiclesRepository.findAll());
+	    model.addAttribute("maintenanceOrders", maintenanceOrder);
+	     
+        return "/update/update-maintenance";
+    }
+	
+	@PostMapping("/updatelocation/{id}")
+    public String updateUser(@PathVariable("id") long id, @Validated MaintenanceOrders location, 
+      BindingResult result, Model model) {
+        if (result.hasErrors()) {
+        	location.setId(id);
+            return "/update/update-location";
+        }
+            
+        locationsRepository.save(location);
+        return "redirect:/locations";
+    }
+}

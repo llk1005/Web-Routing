@@ -1,0 +1,107 @@
+package edu.sru.thangiah.webrouting.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import edu.sru.thangiah.webrouting.web.UserValidator;
+
+/*
+ * WebSecurityConfig
+ * 
+ * Created 2/7/2022 by Logan Kirkwood
+ * 
+ * Description: Sets up Spring Security with Thymeleaf
+ * Redirects user to login unless page is allowed to all users
+ * Also handles user authentication
+ */
+
+@SuppressWarnings("deprecation")
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private AccessDeniedHandler accessDeniedHandler;
+	
+	@Qualifier("userDetailsServiceImpl")
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    public UserValidator userValidator() {
+        return new UserValidator();
+    }
+	
+	@Override
+    protected void configure(HttpSecurity http) throws Exception {
+	    http.headers().frameOptions().disable();
+	    /*
+	     FOR ROLES
+	     .antMatchers("/contacts", "/update-contact", "/editcontact/**", "/add-contact",
+							"/contractors", "/update-contractor", "/editcontractors/**", "/add-contractor",
+							"/locations", "/update-locations", "/editlocations/**", "/add-location",
+							"/vehicles", "/update-vehicle", "/editvehicles/**", "/add-vehicle",
+							"/vehicletypes", "/update-vehicletype", "/editvehicletype/**", "/add-vehicletype",
+							"/drivers", "/update-driver", "/editdriver/**", "add-driver",
+							"/technicians", "/update-technician", "/edittechnician/**", "/add-technician",
+							"/maintenanceorders", "/update-order", "/editorder/**", "/add-maintenance",
+							"/shipments", "/update-shipment", "/editshipment/**", "/add-shipments",
+							"/routes", "/update-routes", "/editroutes", "/add-routes").hasAuthority("MANAGER") 
+					
+					.antMatchers("/contacts", "/update-contact", "/editcontact/**", "/add-contact",
+							"/contractors", "/update-contractor", "/editcontractors/**", "/add-contractor",
+							"/drivers", "/update-driver", "/editdriver/**", "add-driver",
+							"/technicians", "/update-technician", "/edittechnician/**", "/add-technician",
+							"/maintenanceorders", "/update-order", "/editorder/**", "/add-maintenance",
+							"/shipments", "/update-shipment", "/editshipment/**", "/add-shipments",
+							"/routes", "/update-routes", "/editroutes", "/add-routes").hasAuthority("ASSTMANAGER")
+					
+					.antMatchers("/vehicles", "/update-vehicle", "/editvehicles/**", "/add-vehicle",
+							"/vehicletypes", "/update-vehicletype", "/editvehicletype/**", "/add-vehicletype",
+							"/maintenanceorders", "/update-order", "/editorder/**", "/add-maintenance").hasAuthority("OPSMANAGER")
+					
+					.antMatchers("/**").hasAuthority("ADMIN")
+		*/
+	    
+        http.csrf().disable()
+                .authorizeRequests()
+					.antMatchers("/", "/index", "/registration", "/styles/**", "/h2-console/**").permitAll()
+					 
+					.anyRequest().authenticated()
+                .and()
+                .formLogin()
+					.loginPage("/login")
+					.permitAll()
+					.and()
+                .logout()
+					.permitAll()
+					.and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+    }
+	
+	@Bean
+    public AuthenticationManager customAuthenticationManager() throws Exception {
+        return authenticationManager();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    	auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
+    	
+    	/*
+    	OLD: IMPLEMENTS USERS WITHOUT DATABASE
+        auth.inMemoryAuthentication()
+                .withUser("user").password("{noop}password").roles("USER")
+                .and()
+                .withUser("admin").password("{noop}password").roles("ADMIN");
+        */
+    }
+}

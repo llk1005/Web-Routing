@@ -1,0 +1,122 @@
+package edu.sru.thangiah.webrouting.controller;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import edu.sru.thangiah.webrouting.domain.Role;
+import edu.sru.thangiah.webrouting.domain.User;
+import edu.sru.thangiah.webrouting.repository.RoleRepository;
+import edu.sru.thangiah.webrouting.services.SecurityService;
+import edu.sru.thangiah.webrouting.services.UserService;
+import edu.sru.thangiah.webrouting.web.UserValidator;
+
+/*
+ * LoginController
+ * 
+ * Created 2/6/2022 by Logan Kirkwood
+ * 
+ * Description: Handles the Thymeleaf controls for pages
+ * dealing with the login function
+ */
+
+@Controller
+public class LoginController {
+	@Autowired
+    private UserService userService;
+
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private UserValidator userValidator;
+    
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @GetMapping("/registration")
+    public String registration(Model model) {
+        if (securityService.isAuthenticated()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("userForm", new User());
+
+        return "registration";
+    }
+
+    @PostMapping("/registration")
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+
+        userService.save(userForm);
+
+        securityService.autoLogin(userForm.getUsername(), userForm.getPassword());
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model, String error, String logout) {
+        if (securityService.isAuthenticated()) {
+            return "redirect:/";
+        }
+
+        if (error != null)
+            model.addAttribute("error", "Your username and password is invalid.");
+
+        if (logout != null)
+            model.addAttribute("message", "You have been logged out successfully.");
+
+        return "login";
+    }
+
+    @GetMapping({"/"})
+    public String welcome(Model model) {
+        return "index";
+    }
+    
+    /*
+    METHOD USED FOR TESTING - ADDS A NEW USER THAT IS AN ADMIN!
+    
+    @GetMapping({"/newuser"})
+    public String newUser(Model model) {
+    	User user = new User();
+    	user.setEmail("admin@admin.com");
+    	user.setUsername("AdminUser");
+    	user.setPassword("password");
+    	user.setId(2);
+    	
+    	Role role = new Role();
+    	role.setId(1);
+    	role.setName("ADMIN");
+    	roleRepository.save(role);
+    	
+    	Set<Role> roles = new HashSet<Role>();
+    	
+    	roles.add(role);
+    	
+    	user.setRoles(roles);
+    	
+    	userService.save(user);
+    	
+        return "index";
+    }
+    */
+    
+    @GetMapping("/403")
+    public String error403() {
+        return "/403";
+    }
+}

@@ -1,0 +1,80 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.springframework.lang.NonNull;
+
+@Entity
+public class Driver {
+		@Id
+	    @GeneratedValue(strategy = GenerationType.AUTO)
+	    private long id;
+		
+		@NonNull
+		private long contactIdFk;
+		
+		@NonNull
+		private long contractorIdFk;
+		
+		@NonNull
+		private String lisence_number;
+		
+		@NonNull
+		private String lisence_expiration;
+		
+		@NonNull
+		private String lisence_class;
+
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
+		}
+
+		public long getContactIdFk() {
+			return contactIdFk;
+		}
+
+		public void setContactIdFk(long contactIdFk) {
+			this.contactIdFk = contactIdFk;
+		}
+
+		public long getContractorIdFk() {
+			return contractorIdFk;
+		}
+
+		public void setContractorIdFk(long contractorIdFk) {
+			this.contractorIdFk = contractorIdFk;
+		}
+
+		public String getLisence_number() {
+			return lisence_number;
+		}
+
+		public void setLisence_number(String lisence_number) {
+			this.lisence_number = lisence_number;
+		}
+
+		public String getLisence_expiration() {
+			return lisence_expiration;
+		}
+
+		public void setLisence_expiration(String lisence_expiration) {
+			this.lisence_expiration = lisence_expiration;
+		}
+
+		public String getLisence_class() {
+			return lisence_class;
+		}
+
+		public void setLisence_class(String lisence_class) {
+			this.lisence_class = lisence_class;
+		}
+		
+	
+}

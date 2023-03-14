@@ -1,0 +1,113 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class MaintenanceOrders {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	
+	private long requester_id;
+	
+	private long service_technician_id;
+	
+	private String scheduled_date;
+	
+	private String details;
+	
+	private String service_type_key;
+	
+	private String cost;
+	
+	private String status_key;
+	
+	private Long vehicle_id;
+	
+	private String maintenance_type;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getRequester_id() {
+		return requester_id;
+	}
+
+	public void setRequester_id(long requester_id) {
+		this.requester_id = requester_id;
+	}
+
+	public long getService_technician_id() {
+		return service_technician_id;
+	}
+
+	public void setService_technician_id(long service_technician_id) {
+		this.service_technician_id = service_technician_id;
+	}
+
+	public String getScheduled_date() {
+		return scheduled_date;
+	}
+
+	public void setScheduled_date(String scheduled_date) {
+		this.scheduled_date = scheduled_date;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	public String getService_type_key() {
+		return service_type_key;
+	}
+
+	public void setService_type_key(String service_type_key) {
+		this.service_type_key = service_type_key;
+	}
+
+	public String getCost() {
+		return cost;
+	}
+
+	public void setCost(String cost) {
+		this.cost = cost;
+	}
+
+	public String getStatus_key() {
+		return status_key;
+	}
+
+	public void setStatus_key(String status_key) {
+		this.status_key = status_key;
+	}
+
+	public Long getVehicle_id() {
+		return vehicle_id;
+	}
+
+	public void setVehicle_id(Long vehicle_id) {
+		this.vehicle_id = vehicle_id;
+	}
+
+	public String getMaintenance_type() {
+		return maintenance_type;
+	}
+
+	public void setMaintenance_type(String maintenance_type) {
+		this.maintenance_type = maintenance_type;
+	}
+	
+}

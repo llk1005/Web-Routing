@@ -1,0 +1,47 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.springframework.lang.NonNull;
+
+@Entity
+public class Technicians {
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@NonNull
+	private Long contact_id;
+	
+	@NonNull
+	private String skill_grade;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getContact_id() {
+		return contact_id;
+	}
+
+	public void setContact_id(Long contact_id) {
+		this.contact_id = contact_id;
+	}
+
+	public String getSkill_grade() {
+		return skill_grade;
+	}
+
+	public void setSkill_grade(String skill_grade) {
+		this.skill_grade = skill_grade;
+	}
+	
+}

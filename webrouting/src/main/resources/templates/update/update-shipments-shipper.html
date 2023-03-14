@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Update Shipments</title>
+
+		<link rel="stylesheet" type="text/css" href="/styles/reset.css" />
+        <link rel="stylesheet" type="text/css" href="/styles/main.css" />
+        <link rel="stylesheet" type="text/css" href="/styles/login.css">
+        <link rel="stylesheet" type="text/css" href="/styles/menubar.css">
+        <link rel="stylesheet" type="text/css" href="/styles/tables.css">
+
+        <link rel="stylesheet" type="text/css" href="/styles/smoothness/jquery-ui-1.10.2.css" />
+
+	</head>
+	<body>
+		<div id="wrapper">
+
+            <div id="heading">
+                <h1>Enterprise Routing System</h1>
+            </div>
+            
+            <div sec:authorize="isAuthenticated()" id="navbar">
+                <div id="menu">
+                    <ul class="navbar">
+                        <li class="navitem">
+                            <a class="navlink" id="nav_home" href="/">Home</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('ADMIN')" class="navitem">
+                            <a class="navlink" id="nav_users" href="/users">Users</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_contacts" href="/contacts">Contacts</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_locations" href="/locations">Locations</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_vehicles" href="/vehicles">Vehicles</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_vehicletypes" href="/vehicletypes">Vehicle Types</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_drivers" href="/drivers">Drivers</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_technicians" href="/technicians">Technicians</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_maintenanceorders" href="/maintenanceorders">Maintenance Orders</a>
+                        </li>
+                        <li sec:authorize="hasAnyAuthority('CARRIER','MASTERLIST')" class="navitem">
+                            <a class="navlink" id="nav_carriers" href="/carriers">Carriers</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('MASTERLIST')" class="navitem">
+                           <a class="navlink" id="nav_shipments_home_masterlist" href="/shipmentshomemaster">Shipments</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('SHIPPER')" class="navitem">
+                            <a class="selected" id="nav_shipments_home_shipper" href="/shipmentshomeshipper">Shipments</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="selected" id="nav_shipments_home_carrier" href="/shipmentshomecarrier">Shipments</a>
+                        </li>
+                        <li sec:authorize="hasAnyAuthority('CARRIER','MASTERLIST')" class="navitem">
+                            <a class="navlink" id="nav_routes" href="/routes">Routes</a>
+                        </li>
+
+                        <li sec:authorize="isAuthenticated()" class="navitem">
+                            <form id="logoutForm" method="POST" th:action="@{/logout}">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                            <a class="navlink" onclick="document.forms['logoutForm'].submit()">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div sec:authorize="!isAuthenticated()" id="navbar">
+                <div id="menu">
+                    <ul class="navbar">
+                        <li class="navitem">
+                            <a class="selected" id="nav_home" href="/">Home</a>
+                        </li>
+                        <li sec:authorize="!isAuthenticated()" class="navitem">
+                            <a class="navlink" id="nav_login" href="login">Login</a>
+                        </li>
+                        <li sec:authorize="!isAuthenticated()" class="navitem">
+                            <a class="navlink" id="nav_registration" href="/registrationhome">Registration</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="sub_heading">
+                <div id="loginDiv">
+                    <div sec:authorize="isAuthenticated()" style="float: right;">
+                        <form id="logoutForm" method="POST" th:action="@{/logout}">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </form>
+                        Hello <span sec:authentication="name"></span> | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+                    </div>
+                    <div sec:authorize="!isAuthenticated()" style="float: right;">
+                        <a id="loginLink" class="ui-button" href="/login">Login</a>
+                    </div>
+                </div>
+            </div>
+			
+			<div id="content">
+                <h2>Update Shipment</h2>
+				<div id="formContainer">
+                    <form action="#" th:action="@{/updateshipment/{id}(id=${shipments.id})}" th:object="${shipments}" method="post">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="client">Client: </label> 
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{client}" id="client" placeholder="Client" required>
+                                    <span th:if="${#fields.hasErrors('client')}" th:errors="*{client}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="clientMode">Client Mode: </label>
+                                </td>
+                                <td>
+                                    <select th:field="*{clientMode}" required>
+                                        <th:block>
+                                            <option th:text="FTL" th:value="FTL"></option>
+                                            <option th:text="LTL" th:value="LTL"></option>
+                                        </th:block>
+                                    </select> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="shipDate">Ship Date: </label>    
+                                </td>
+                                <td>
+                                    <input type="date" th:field="*{shipDate}" id="shipDate" placeholder="Ship Date" required>
+                                    <span th:if="${#fields.hasErrors('shipDate')}" th:errors="*{shipDate}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="commodityClass">Commodity Class: </label> 
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{commodityClass}" id="commodityClass" placeholder="Commodity Class" required>
+                                    <span th:if="${#fields.hasErrors('commodityClass')}" th:errors="*{commodityClass}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="commodityPieces">Commodity Pieces: </label>   
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{commodityPieces}" id="commodityPieces" placeholder="Commodity Pieces" required>
+                                    <span th:if="${#fields.hasErrors('commodityPieces')}" th:errors="*{commodityPieces}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="commodityPaidWeight">Commodity Paid Weight: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{commodityPaidWeight}" id="commodityPaidWeight" placeholder="Commodity Paid Weight" required>
+                                    <span th:if="${#fields.hasErrors('commodityPaidWeight')}" th:errors="*{commodityPaidWeight}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="shipperCity">Shipper City: </label> 
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{shipperCity}" id="shipperCity" placeholder="Shipper City" required>
+                                    <span th:if="${#fields.hasErrors('shipperCity')}" th:errors="*{shipperCity}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="shipperState">Shipper State: </label> 
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{shipperState}" id="shipperState" placeholder="Shipper State" required>
+                                    <span th:if="${#fields.hasErrors('shipperState')}" th:errors="*{shipperState}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="shipperZip">Shipper Zip: </label> 
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{shipperZip}" id="shipperZip" placeholder="Shipper Zip" required>
+                                    <span th:if="${#fields.hasErrors('shipperZip')}" th:errors="*{shipperZip}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="shipperLatitude">Shipper Latitude: </label>  
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{shipperLatitude}" id="shipperLatitude" placeholder="Shipper Latitude" required>
+                                    <span th:if="${#fields.hasErrors('shipperLatitude')}" th:errors="*{shipperLatitude}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="shipperLongitude">Shipper Longitude: </label> 
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{shipperLongitude}" id="shipperLongitude" placeholder="Shipper Longitude" required>
+                                    <span th:if="${#fields.hasErrors('shipperLongitude')}" th:errors="*{shipperLongitude}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="consigneeCity">Consignee City: </label>  
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{consigneeCity}" id="consigneeCity" placeholder="Consignee City" required>
+                                    <span th:if="${#fields.hasErrors('consigneeCity')}" th:errors="*{consigneeCity}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="consigneeState">Consignee State: </label>   
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{consigneeState}" id="consigneeState" placeholder="Consignee State" required>
+                                    <span th:if="${#fields.hasErrors('consigneeState')}" th:errors="*{consigneeState}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="consigneeZip">Consignee Zip: </label>   
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{consigneeZip}" id="consigneeZip" placeholder="Consignee Zip" required>
+                                    <span th:if="${#fields.hasErrors('consigneeZip')}" th:errors="*{consigneeZip}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="consigneeLatitude">Consignee Latitude: </label> 
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{consigneeLatitude}" id="consigneeLatitude" placeholder="Consignee Latitude" required>
+                                    <span th:if="${#fields.hasErrors('consigneeLatitude')}" th:errors="*{consigneeLatitude}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="consigneeLongitude">Consignee Longitude: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{consigneeLongitude}" id="consigneeLongitude" placeholder="Consignee Longitude" required>
+                                    <span th:if="${#fields.hasErrors('consigneeLongitude')}" th:errors="*{consigneeLongitude}"></span>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>                         
+                        <br>
+                        <input type="submit" value="Update Shipment">
+                        
+                    </form>
+                    <a href="/createdshipments">Created Shipments Page</a>
+                </div>
+			</div>
+		</div>
+
+		<div class="footer">
+            Copyright &copy; Slippery Rock University 2022
+        </div>
+
+	</body>
+</html>

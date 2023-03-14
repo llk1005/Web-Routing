@@ -1,0 +1,62 @@
+/* Defaults for data display*/
+.dataTable, .wwFormTable {
+	width: 100%;
+	overflow: auto;
+	border-collapse: separate;
+}
+
+.dataTable th {
+	margin: 0px;
+	padding: 4px;
+	text-decoration: underline;
+	background: #eee;
+	border-bottom: 1px solid grey;
+	color: black;
+}
+
+.dataTable td, .wwFormTable td {
+	border: 1px solid #ccc;
+	margin: 0px;
+	padding: 4px;
+}
+
+/*
+.dataTable a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.dataTable a:hover {
+	color: grey;
+}
+
+.dataTable tr:hover {
+	background-color: #006438;
+	color: white;
+	text-decoration: none;
+}
+*/
+
+/* Column selection */
+#columnSelect {
+	clear: both;
+	margin: 6px 0px;
+}
+
+#columnSelectForm table {
+	border: 1px solid grey;
+}
+
+#columnSelectForm table td {
+	border: none;
+	border-bottom: 1px solid #ddd;
+}
+
+#columnSelectForm table td input {
+	margin-left: 8px;
+	margin-bottom: 12px;
+}
+
+#columnSelectForm table td.tdLabel {
+	width: 75px;
+}

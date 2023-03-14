@@ -1,0 +1,136 @@
+/* @author Mitchell Nemitz */
+@import url("menubar.css");
+@import url("buttons.css");
+@import url("tables.css");
+@import url("login.css");
+
+
+
+* {
+	margin: 0px;
+	font-family: Tahoma;
+}
+
+html, body {
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background: #fff;
+	font-family: Sans-serif;
+}
+
+
+
+/* ------------------ */
+/* Container elements */
+#wrapper {
+	width: 100%;
+	min-width: 1230px;
+	
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	
+	background: #fff;
+	
+	margin: 0px auto -24px;
+}
+
+	#debug {
+		display: none;
+	}
+
+	#heading {
+		color: white;
+		height: 64px;
+		line-height: 64px;
+		padding-left: 12px;
+		background: #006438;
+	}
+
+	#content {
+		padding: 6px;
+		padding-bottom: 30px;
+	}
+
+		#dataContainer {
+		clear: both;
+		
+		width: 100%;
+		overflow: auto;
+		border: 1px solid grey;
+		}
+
+		/* Secondary panel */
+		#editContainer {
+			width: 600px;
+			margin: 0 auto;
+		}
+
+		#formContainer {
+			float: left;
+			width: 440px;
+			overflow: auto;
+			margin-top: 12px;
+			margin-bottom: 12px;
+			border: 1px solid grey;
+		}
+		
+		#dualFormContainer {
+			float: left;
+			width: 440px;
+			overflow: auto;
+			margin-top: 12px;
+			margin-bottom: 12px;
+			border: 1px solid grey;
+		}
+		
+		#dualFormButtonContainer {
+			
+		}
+
+	/* ------------- */
+	/* sticky footer */
+	.push {
+		clear: both;
+		height: 24px;
+	}
+
+/* ------------- */
+/* actual footer */
+.footer {
+	clear: both;
+	
+	width: 100%;
+	height: 24px;
+	
+	color: white;
+	min-width: 1140px;
+	line-height: 24px;
+	background: #134b33;
+	text-align: center;
+	margin: 0px auto;
+}
+
+#indexHome {
+	text-align: center;
+}
+
+#authenticated {
+	font-size: 24pt;
+}
+
+#authenticated a {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#authenticated a:hover {
+	color: #134b33;
+	cursor: pointer;
+}

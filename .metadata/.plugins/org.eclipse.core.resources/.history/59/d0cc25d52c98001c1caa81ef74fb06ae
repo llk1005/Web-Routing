@@ -1,0 +1,107 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.springframework.lang.NonNull;
+
+/*
+ * Vehicles
+ * 
+ * Created 1/30/2022 by Logan Kirkwood
+ * 
+ * Description: Sets up the Vehicles database
+ */
+
+@Entity
+public class Vehicles {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+	
+	@NonNull
+	private String plateNumber;
+	
+	@NonNull
+	private String vinNumber;
+	
+	@NonNull
+	private String manufacturedYear;
+	
+	@ManyToOne
+	@JoinColumn(name = "vehicletype_id")
+	private VehicleTypes vehicleType;
+	
+	@ManyToOne
+	@JoinColumn(name = "location_id")
+	private Locations location;
+	
+	@ManyToOne
+	@JoinColumn(name = "contractor_id")
+	private Contractors contractor;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getPlateNumber() {
+		return plateNumber;
+	}
+
+	public void setPlateNumber(String plateNumber) {
+		this.plateNumber = plateNumber;
+	}
+
+	public String getVinNumber() {
+		return vinNumber;
+	}
+
+	public void setVinNumber(String vinNumber) {
+		this.vinNumber = vinNumber;
+	}
+
+	public String getManufacturedYear() {
+		return manufacturedYear;
+	}
+
+	public void setManufacturedYear(String manufacturedYear) {
+		this.manufacturedYear = manufacturedYear;
+	}
+
+	public VehicleTypes getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(VehicleTypes vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+
+	public Locations getLocation() {
+		return location;
+	}
+
+	public void setLocation(Locations location) {
+		this.location = location;
+	}
+
+	public Contractors getContractor() {
+		return contractor;
+	}
+
+	public void setContractor(Contractors contractor) {
+		this.contractor = contractor;
+	}
+	
+	public String toString() {
+		return this.getVehicleType().toString() + " Plate: " + this.getPlateNumber();
+	}
+}

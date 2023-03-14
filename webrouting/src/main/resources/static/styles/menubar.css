@@ -1,0 +1,83 @@
+/* @author Mitchell Nemitz */
+
+#menu {
+	height: 30px;
+	background: #134b33;
+	border-bottom: 1px solid grey;
+}
+
+ul.navbar {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	
+	list-style-type: none;
+}
+
+li.navitem {
+	display: inline-block;
+}
+
+a.navlink {
+	display: inline-block;
+	
+	/* float: right; */
+	
+	min-width: 80px;
+	height: 21px;
+	line-height: 21px;
+	
+	color: black;
+	background: #ccc;
+	text-align: center;
+	text-decoration: none;
+	
+	margin-left: 4px;
+	margin-top: 6px;
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	
+	border: 1px solid grey;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+}
+
+a.navlink:hover{
+	background: white !important;
+	border-bottom: 1px solid white !important;
+}
+
+.selected {
+	display: inline-block;
+	
+	/* float: right; */
+	
+	min-width: 80px;
+	height: 21px;
+	line-height: 21px;
+	
+	color: black;
+	background: #ccc;
+	text-align: center;
+	text-decoration: none;
+	
+	margin-left: 4px;
+	margin-top: 6px;
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	
+	border: 1px solid grey;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+
+	background: white !important;
+	border-bottom: 1px solid white !important;
+
+	font-weight: bold;
+}
+
+#menu a:hover {
+	cursor: pointer;
+}

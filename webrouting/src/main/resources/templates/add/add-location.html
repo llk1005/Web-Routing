@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Add Location</title>
+
+		<link rel="stylesheet" type="text/css" href="/styles/reset.css" />
+        <link rel="stylesheet" type="text/css" href="/styles/main.css" />
+        <link rel="stylesheet" type="text/css" href="/styles/login.css">
+        <link rel="stylesheet" type="text/css" href="/styles/menubar.css">
+        <link rel="stylesheet" type="text/css" href="/styles/tables.css">
+
+        <link rel="stylesheet" type="text/css" href="/styles/smoothness/jquery-ui-1.10.2.css" />
+
+	</head>
+	<body>
+		<div id="wrapper">
+
+            <div id="heading">
+                <h1>Enterprise Routing System</h1>
+            </div>
+            
+            <div sec:authorize="isAuthenticated()" id="navbar">
+                <div id="menu">
+                    <ul class="navbar">
+                        <li class="navitem">
+                            <a class="navlink" id="nav_home" href="/">Home</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('ADMIN')" class="navitem">
+                            <a class="navlink" id="nav_users" href="/users">Users</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_contacts" href="/contacts">Contacts</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="selected" id="nav_locations" href="/locations">Locations</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_vehicles" href="/vehicles">Vehicles</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_vehicletypes" href="/vehicletypes">Vehicle Types</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_drivers" href="/drivers">Drivers</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_technicians" href="/technicians">Technicians</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_maintenanceorders" href="/maintenanceorders">Maintenance Orders</a>
+                        </li>
+                        <li sec:authorize="hasAnyAuthority('CARRIER','MASTERLIST')" class="navitem">
+                            <a class="navlink" id="nav_carriers" href="/carriers">Carriers</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('MASTERLIST')" class="navitem">
+                            <a class="navlink" id="nav_shipments_home_masterlist" href="/shipmentshomemaster">Shipments</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('SHIPPER')" class="navitem">
+                            <a class="navlink" id="nav_shipments_home_shipper" href="/shipmentshomeshipper">Shipments</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('CARRIER')" class="navitem">
+                            <a class="navlink" id="nav_shipments_home_carrier" href="/shipmentshomecarrier">Shipments</a>
+                        </li>
+                        <li sec:authorize="hasAnyAuthority('CARRIER','MASTERLIST')" class="navitem">
+                            <a class="navlink" id="nav_routes" href="/routes">Routes</a>
+                        </li>
+
+                        <li sec:authorize="isAuthenticated()" class="navitem">
+                            <form id="logoutForm" method="POST" th:action="@{/logout}">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                            <a class="navlink" onclick="document.forms['logoutForm'].submit()">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div sec:authorize="!isAuthenticated()" id="navbar">
+                <div id="menu">
+                    <ul class="navbar">
+                        <li class="navitem">
+                            <a class="selected" id="nav_home" href="/">Home</a>
+                        </li>
+                        <li sec:authorize="!isAuthenticated()" class="navitem">
+                            <a class="navlink" id="nav_login" href="login">Login</a>
+                        </li>
+                        <li sec:authorize="!isAuthenticated()" class="navitem">
+                            <a class="navlink" id="nav_registration" href="/registrationhome">Registration</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="sub_heading">
+                <div id="loginDiv">
+                    <div sec:authorize="isAuthenticated()" style="float: right;">
+                        <form id="logoutForm" method="POST" th:action="@{/logout}">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </form>
+                        Hello <span sec:authentication="name"></span> | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+                    </div>
+                    <div sec:authorize="!isAuthenticated()" style="float: right;">
+                        <a id="loginLink" class="ui-button" href="/login">Login</a>
+                    </div>
+                </div>
+            </div>
+			
+			<div id="content">
+                <h2>Add Location</h2>
+				<div id="formContainer">
+                    <form action="#" th:action="@{/addlocations}" th:object="${locations}" method="post">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="name">Location Name: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{name}" id="name" placeholder="Location Name" required>
+                                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="streetAddress1">Street Address 1: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{streetAddress1}" id="streetAddress1" placeholder="Street Address 1" required>
+                                    <span th:if="${#fields.hasErrors('streetAddress1')}" th:errors="*{streetAddress1}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="streetAddress2">Street Address 2: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{streetAddress2}" id="streetAddress2" placeholder="Street Address 2">
+                                    <span th:if="${#fields.hasErrors('streetAddress2')}" th:errors="*{streetAddress2}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="city">City: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{city}" id="city" placeholder="City" required>
+                                    <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="state">State: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{state}" id="state" placeholder="State" required>
+                                    <span th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="zip">Zip Code: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{zip}" id="zip" placeholder="Zip Code" required>
+                                    <span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="latitude">Latitude: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{latitude}" id="latitude" placeholder="Latitude">
+                                    <span th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="longitude">Longitude: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{longitude}" id="longitude" placeholder="Longitude">
+                                    <span th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="carrier">Carrier: </label>
+                                </td>
+                                <td>
+                                    <select th:field="*{carrier}" required>
+                                        <th:block th:each="carrier : ${carriers}">
+                                            <option th:text="${carrier.carrierName}" th:value="${carrier.id}"></option>
+                                        </th:block>
+                                    </select>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="locationType">Location Type: </label>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{locationType}" id="locationType" placeholder="Location Type" required>
+                                    <span th:if="${#fields.hasErrors('locationType')}" th:errors="*{locationType}"></span>
+                                </td>
+                            </tr>
+                        </table>           
+                        <br>
+                        <br>            
+                        <input type="submit" value="Add Location">   
+                    </form>
+                    <a href="/locations">Locations Page</a>
+                </div>
+			</div>
+		</div>
+
+		<div class="footer">
+            Copyright &copy; Slippery Rock University 2022
+        </div>
+
+	</body>
+</html>

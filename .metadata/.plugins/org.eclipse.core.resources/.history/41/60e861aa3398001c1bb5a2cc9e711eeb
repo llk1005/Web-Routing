@@ -1,0 +1,212 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Shipments {
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	private String time_entered;
+	
+	private Long order_id;
+	
+	private VehicleTypes vehicleType;
+	
+	private Routes route;
+	
+	private int route_order_value;
+	
+	private Locations location;
+	
+	private String available_date;
+	
+	private String available_time;
+	
+	private String earliest_delivery_date;
+	
+	private String earliest_delivery_time;
+	
+	private String latest_delivery_date;
+	
+	private String latest_delivery_time;
+	
+	private String service_time;
+	
+	private int weight;
+	
+	private int cubic_weight;
+	
+	private String customer_name;
+	
+	private Locations destination;
+	
+	private Boolean pooled_shipment;
+	
+	private Long pooled_destination_id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTime_entered() {
+		return time_entered;
+	}
+
+	public void setTime_entered(String time_entered) {
+		this.time_entered = time_entered;
+	}
+
+	public Long getOrder_id() {
+		return order_id;
+	}
+
+	public void setOrder_id(Long order_id) {
+		this.order_id = order_id;
+	}
+
+	public VehicleTypes getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(VehicleTypes vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+
+	public Routes getRoute() {
+		return route;
+	}
+
+	public void setRoute(Routes route) {
+		this.route = route;
+	}
+
+	public Locations getLocation() {
+		return location;
+	}
+
+	public void setLocation(Locations location) {
+		this.location = location;
+	}
+
+	public Locations getDestination() {
+		return destination;
+	}
+
+	public void setDestination(Locations destination) {
+		this.destination = destination;
+	}
+
+	public int getRoute_order_value() {
+		return route_order_value;
+	}
+
+	public void setRoute_order_value(int route_order_value) {
+		this.route_order_value = route_order_value;
+	}
+
+	public String getAvailable_date() {
+		return available_date;
+	}
+
+	public void setAvailable_date(String available_date) {
+		this.available_date = available_date;
+	}
+
+	public String getAvailable_time() {
+		return available_time;
+	}
+
+	public void setAvailable_time(String available_time) {
+		this.available_time = available_time;
+	}
+
+	public String getEarliest_delivery_date() {
+		return earliest_delivery_date;
+	}
+
+	public void setEarliest_delivery_date(String earliest_delivery_date) {
+		this.earliest_delivery_date = earliest_delivery_date;
+	}
+
+	public String getEarliest_delivery_time() {
+		return earliest_delivery_time;
+	}
+
+	public void setEarliest_delivery_time(String earliest_delivery_time) {
+		this.earliest_delivery_time = earliest_delivery_time;
+	}
+
+	public String getLatest_delivery_date() {
+		return latest_delivery_date;
+	}
+
+	public void setLatest_delivery_date(String latest_delivery_date) {
+		this.latest_delivery_date = latest_delivery_date;
+	}
+
+	public String getLatest_delivery_time() {
+		return latest_delivery_time;
+	}
+
+	public void setLatest_delivery_time(String latest_delivery_time) {
+		this.latest_delivery_time = latest_delivery_time;
+	}
+
+	public String getService_time() {
+		return service_time;
+	}
+
+	public void setService_time(String service_time) {
+		this.service_time = service_time;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public int getCubic_weight() {
+		return cubic_weight;
+	}
+
+	public void setCubic_weight(int cubic_weight) {
+		this.cubic_weight = cubic_weight;
+	}
+
+	public String getCustomer_name() {
+		return customer_name;
+	}
+
+	public void setCustomer_name(String customer_name) {
+		this.customer_name = customer_name;
+	}s
+
+	public Boolean getPooled_shipment() {
+		return pooled_shipment;
+	}
+
+	public void setPooled_shipment(Boolean pooled_shipment) {
+		this.pooled_shipment = pooled_shipment;
+	}
+
+	public Long getPooled_destination_id() {
+		return pooled_destination_id;
+	}
+
+	public void setPooled_destination_id(Long pooled_destination_id) {
+		this.pooled_destination_id = pooled_destination_id;
+	}
+}

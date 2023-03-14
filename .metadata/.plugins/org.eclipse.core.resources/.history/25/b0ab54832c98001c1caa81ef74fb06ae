@@ -1,0 +1,113 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class MaintenanceOrders {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	
+	private Driver driver;
+	
+	private Technicians technician;
+	
+	private String scheduled_date;
+	
+	private String details;
+	
+	private String service_type_key;
+	
+	private String cost;
+	
+	private String status_key;
+	
+	private Vehicles vehicle;
+	
+	private String maintenance_type;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Driver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Driver driver) {
+		this.driver = driver;
+	}
+
+	public Technicians getTechnician() {
+		return technician;
+	}
+
+	public void setTechnician(Technicians technician) {
+		this.technician = technician;
+	}
+
+	public String getScheduled_date() {
+		return scheduled_date;
+	}
+
+	public void setScheduled_date(String scheduled_date) {
+		this.scheduled_date = scheduled_date;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	public String getService_type_key() {
+		return service_type_key;
+	}
+
+	public void setService_type_key(String service_type_key) {
+		this.service_type_key = service_type_key;
+	}
+
+	public String getCost() {
+		return cost;
+	}
+
+	public void setCost(String cost) {
+		this.cost = cost;
+	}
+
+	public String getStatus_key() {
+		return status_key;
+	}
+
+	public void setStatus_key(String status_key) {
+		this.status_key = status_key;
+	}
+
+	public Vehicles getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicles vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public String getMaintenance_type() {
+		return maintenance_type;
+	}
+
+	public void setMaintenance_type(String maintenance_type) {
+		this.maintenance_type = maintenance_type;
+	}
+	
+}

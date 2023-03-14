@@ -1,0 +1,60 @@
+package edu.sru.thangiah.webrouting.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.sru.thangiah.webrouting.domain.Role;
+import edu.sru.thangiah.webrouting.repository.RoleRepository;
+
+/*
+ * RolesController
+ * 
+ * Created 2/6/2022 by Logan Kirkwood
+ * 
+ * Description: Handles the Thymeleaf controls for pages
+ * dealing with Roles
+ */
+
+@Controller
+public class RolesController {
+	private RoleRepository roleRepository;
+    
+    public RolesController(RoleRepository roleRepository) {
+		this.roleRepository = roleRepository;
+	}
+    
+    @RequestMapping({"/roles"})
+    public String showUserList(Model model) {
+        model.addAttribute("role", roleRepository.findAll());
+        return "roles";
+    }
+    
+
+  	@RequestMapping({"/add-role"})
+      public String showSignUpForm(Role role) {
+          return "add-role";
+    }
+      
+  	@RequestMapping({"/addrole"})
+  	public String addUser(@Validated Role role, BindingResult result, Model model) {
+  		if (result.hasErrors()) {
+  			return "add-role";
+		}
+  		
+  		roleRepository.save(role);
+  		return "redirect:/roles";
+  	}
+  	
+  	@GetMapping("/deleterole/{id}")
+    public String deleteUser(@PathVariable("id") long id, Model model) {
+        Role role = roleRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        roleRepository.delete(role);
+        return "redirect:/roles";
+    }
+}

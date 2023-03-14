@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;webrouting&apos;" deleteContents="false" description="Delete resource &apos;webrouting&apos;" element1="/webrouting" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1645998976805"/>&#x0A;<refactoring comment="Delete resource &apos;Spring-2022---Spring-Web-Routing&apos;" deleteContents="false" description="Delete resource &apos;Spring-2022---Spring-Web-Routing&apos;" element1="/Spring-2022---Spring-Web-Routing" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1645998979197"/>
+</session>

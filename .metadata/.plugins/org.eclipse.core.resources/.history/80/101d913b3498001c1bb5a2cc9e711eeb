@@ -1,0 +1,134 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Routes {
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name = "vehicle_id")
+	private Vehicles vehicle;
+	
+	@ManyToOne
+	@JoinColumn(name = "start_location_id")
+	private Locations startLocation;
+	
+	@ManyToOne
+	@JoinColumn(name = "end_location_id")
+	private Locations endLocation;
+	
+	private String start_date;
+	
+	private String end_date;
+	
+	private int total_weight;
+	
+	private int total_cubic_weight;
+	
+	private int total_miles;
+	
+	private String total_time;
+	
+	private int total_days;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Vehicles getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicles vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public Locations getStartLocation() {
+		return startLocation;
+	}
+
+	public void setStartLocation(Locations startLocation) {
+		this.startLocation = startLocation;
+	}
+
+	public Locations getEndLocation() {
+		return endLocation;
+	}
+
+	public void setEndLocation(Locations endLocation) {
+		this.endLocation = endLocation;
+	}
+
+	public String getStart_date() {
+		return start_date;
+	}
+
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
+	}
+
+	public String getEnd_date() {
+		return end_date;
+	}
+
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
+	}
+
+	public int getTotal_weight() {
+		return total_weight;
+	}
+
+	public void setTotal_weight(int total_weight) {
+		this.total_weight = total_weight;
+	}
+
+	public int getTotal_cubic_weight() {
+		return total_cubic_weight;
+	}
+
+	public void setTotal_cubic_weight(int total_cubic_weight) {
+		this.total_cubic_weight = total_cubic_weight;
+	}
+
+	public int getTotal_miles() {
+		return total_miles;
+	}
+
+	public void setTotal_miles(int total_miles) {
+		this.total_miles = total_miles;
+	}
+
+	public String getTotal_time() {
+		return total_time;
+	}
+
+	public void setTotal_time(String total_time) {
+		this.total_time = total_time;
+	}
+
+	public int getTotal_days() {
+		return total_days;
+	}
+
+	public void setTotal_days(int total_days) {
+		this.total_days = total_days;
+	}
+	
+	public String toString() {
+		return "ID: " + this.getId() + " Start Location: " + this.getStartLocation().toString() + " End Location: " + this.getEndLocation().toString();
+	}
+}

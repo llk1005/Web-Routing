@@ -1,0 +1,91 @@
+package edu.sru.thangiah.webrouting.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.sru.thangiah.webrouting.domain.Locations;
+import edu.sru.thangiah.webrouting.domain.Routes;
+import edu.sru.thangiah.webrouting.domain.Shipments;
+import edu.sru.thangiah.webrouting.repository.LocationsRepository;
+import edu.sru.thangiah.webrouting.repository.RoutesRepository;
+import edu.sru.thangiah.webrouting.repository.VehiclesRepository;
+
+@Controller
+public class RoutesController {
+
+	private RoutesRepository routesRepository;
+	
+	private VehiclesRepository vehiclesRepository;
+	
+	private LocationsRepository locationsRepository;
+
+	public RoutesController (RoutesRepository routesRepository, VehiclesRepository vehiclesRepository, LocationsRepository locationsRepository) {
+		this.locationsRepository = locationsRepository;
+		this.routesRepository = routesRepository;
+		this.vehiclesRepository = vehiclesRepository;
+	}
+
+	@RequestMapping({"/routes"})
+    	public String showRoutesList(Model model) {
+        model.addAttribute("routes", routesRepository.findAll());
+        return "routes";
+    }
+
+	@GetMapping({"/add-routes"})
+    	public String showList(Model model, Routes route, BindingResult result) {
+        model.addAttribute("locations", locationsRepository.findAll());
+        model.addAttribute("vehicle", vehiclesRepository.findAll());       
+        return "/add/add-routes";
+    }
+	
+	@RequestMapping({"/addroutes"})
+  	public String addRoute(@Validated Routes route, BindingResult result, Model model) {
+  		if (result.hasErrors()) {
+  			return "/add/add-routes";
+		}
+  		
+  		routesRepository.save(route);
+  		return "redirect:/routes";
+  	}
+
+	@GetMapping("/deleteroutes/{id}")
+    	public String deleteRoute(@PathVariable("id") long id, Model model) {
+        Routes route = routesRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid route Id:" + id));
+        routesRepository.delete(route);
+        return "redirect:/routes";
+    }
+	
+	@GetMapping("/editroutes/{id}")
+    public String showEditForm(@PathVariable("id") long id, Model model) {
+		 Routes route = routesRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid Route Id:" + id));
+        
+		
+		 model.addAttribute("locations", locationsRepository.findAll());
+	     model.addAttribute("vehicle", vehiclesRepository.findAll());  
+	     model.addAttribute("routes", route);
+	     
+        return "/update/update-routes";
+    }
+	
+	@PostMapping("/updateroutes/{id}")
+    public String updateUser(@PathVariable("id") long id, @Validated Routes route, 
+      BindingResult result, Model model) {
+        if (result.hasErrors()) {
+        	route.setId(id);
+            return "/update/update-routes";
+        }
+            
+        routesRepository.save(route);
+        return "redirect:/routes";
+    }
+}
+	
+

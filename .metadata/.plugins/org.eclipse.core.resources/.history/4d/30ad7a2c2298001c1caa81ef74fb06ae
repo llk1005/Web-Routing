@@ -1,0 +1,83 @@
+package edu.sru.thangiah.webrouting.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.sru.thangiah.webrouting.domain.Locations;
+import edu.sru.thangiah.webrouting.domain.VehicleTypes;
+import edu.sru.thangiah.webrouting.repository.VehicleTypesRepository;
+
+/*
+ * VehicleTypesController
+ * 
+ * Created 2/1/2022 by Logan Kirkwood
+ * 
+ * Description: Handles the Thymeleaf controls for pages
+ * dealing with VehicleTypes
+ */
+
+@Controller
+public class VehicleTypesController {
+	
+	private VehicleTypesRepository vehicleTypesRepository;
+	
+	public VehicleTypesController(VehicleTypesRepository vehicleTypesRepository) {
+		this.vehicleTypesRepository = vehicleTypesRepository;
+	}
+	
+	@RequestMapping({"/vehicletypes"})
+    public String showVehicleTypeList(Model model) {
+        model.addAttribute("vehicletypes", vehicleTypesRepository.findAll());
+        return "vehicletypes";
+    }
+	
+	@RequestMapping({"/signupvehicletype"})
+    public String showVehicleTypeSignUpForm(VehicleTypes vehicleTypes) {
+        return "/add/add-vehicletype";
+	}
+	
+	@RequestMapping({"/addvehicletypes"})
+  	public String addVehicleType(@Validated VehicleTypes vehicleTypes, BindingResult result, Model model) {
+  		if (result.hasErrors()) {
+  			return "/add/add-vehicletype";
+		}
+  		
+  		vehicleTypesRepository.save(vehicleTypes);
+  		return "redirect:/vehicletypes";
+  	}
+	
+	@GetMapping("/deletevehicletype/{id}")
+    public String deleteVehicleType(@PathVariable("id") long id, Model model) {
+        VehicleTypes vehicleTypes = vehicleTypesRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid vehicle type Id:" + id));
+        vehicleTypesRepository.delete(vehicleTypes);
+        return "redirect:/vehicletypes";
+    }
+	@GetMapping("/editvehicletype/{id}")
+    public String showEditForm(@PathVariable("id") long id, Model model) {
+		VehicleTypes vehicleTypes = vehicleTypesRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid vechile type Id:" + id));
+        
+		model.addAttribute("vehicleTypes", vehicleTypes);
+        return "/update/update-vehicletype";
+    }
+	
+	@PostMapping("/updatelocation/{id}")
+    public String updateUser(@PathVariable("id") long id, @Validated Locations location, 
+      BindingResult result, Model model) {
+        if (result.hasErrors()) {
+        	location.setId(id);
+            return "/update/update-location";
+        }
+            
+        vehicleTypesRepoistory.save(location);
+        return "redirect:/locations";
+    }
+
+}

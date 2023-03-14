@@ -1,0 +1,88 @@
+package edu.sru.thangiah.webrouting.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.springframework.lang.NonNull;
+
+/*
+ * Contractors
+ * 
+ * Created 1/30/2022 by Logan Kirkwood
+ * 
+ * Description: Sets up the Contractors database
+ */
+
+@Entity
+public class Contractors {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+	
+	@NonNull
+	private String contractorName;
+	
+	@ManyToOne
+	@JoinColumn(name = "contact_id")
+	private Contacts contact;
+	
+	@OneToMany(mappedBy = "contractor")
+	private List<Locations> locations = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "contractor")
+	private List<Vehicles> vehicles = new ArrayList<>();
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getContractorName() {
+		return contractorName;
+	} 
+
+	public void setContractorName(String contractorName) {
+		this.contractorName = contractorName;
+	}
+
+	public Contacts getContact() {
+		return contact;
+	}
+
+	public void setContact(Contacts contact) {
+		this.contact = contact;
+	}
+	
+	public List<Locations> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(List<Locations> locations) {
+		this.locations = locations;
+	}
+
+	public List<Vehicles> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(List<Vehicles> vehicles) {
+		this.vehicles = vehicles;
+	}
+
+	public String toString() {
+		return this.getContractorName();
+	}
+}
